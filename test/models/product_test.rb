@@ -62,6 +62,19 @@ class ProductTest < ActiveSupport::TestCase
 		assert_equal "has already been taken", product.errors[:title].join('; ')
 	end
 
+	test "product description must be at least ten characters" do
+		product = Product.new( 	description: "My book description",
+								image_url: "myimageurl.jpg",
+								price: 1 )
+		15.times do |n|
+			product.title = 'a' * n
+			if n < 10
+				assert product.invalid?
+			else
+				assert product.valid?
+			end
+		end
+	end
 end
 
 
